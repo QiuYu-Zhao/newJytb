@@ -1,0 +1,356 @@
+<#include "/common/header.html"/>
+<!-- 页面增加角色，如果想调用 security.authorize ，必须使用下面的标签-->
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
+<body style="background-color: #fff;">
+
+<div class="container-fluid">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN STYLE CUSTOMIZER -->
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+
+    <!-- BEGIN DASHBOARD STATS -->
+    <div class="tiles">
+        <div class="tile-wrap">
+            <div class="tile-box" data-scale="1.1">
+                <!-- 这里放置 tile 元素 -->
+
+                <@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+                or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL')  or hasRole('DEMO')  or hasRole('DEMO2')  ">
+                <a href="/mk/gongdan/customer/toList.html">
+                    <div class="tile image">
+                        <div class="tile-body">
+                            <img src="/image/index/gd.png">
+                        </div>
+                        <div class="tile-object">
+                            <div class="namebig">工单
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </@security.authorize>
+
+            <@security.authorize access="hasRole('ROLE_MONITOR')">
+            <a href="/mk/map/important.html" target="_blank">
+                <div class="tile image">
+                    <div class="tile-body">
+                        <img src="/image/index/gd.png">
+                    </div>
+                    <div class="tile-object">
+                        <div class="namebig">重点关注
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </@security.authorize>
+
+        <@security.authorize access="hasRole('UXIN_HQ') or hasRole('UXIN_BR')">
+        <a href="/mk/uxin/gongdan/customer/toAdd.html">
+            <div class="tile image">
+                <div class="tile-body">
+                    <img src="/image/index/gd.png">
+                </div>
+                <div class="tile-object">
+                    <div class="namebig">设备绑定
+                    </div>
+                </div>
+            </div>
+        </a>
+    </@security.authorize>
+
+    <@security.authorize access="hasRole('NOINSTALL')">
+    <a href="/mk/noinstall/gongdan/customer/toAdd.html">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/gd.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">设备绑定
+                </div>
+            </div>
+        </div>
+    </a>
+</@security.authorize>
+</div>
+<@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN')
+or hasRole('CHEXIAO') or hasRole('CUSTOMER') or hasRole('INSTALL')
+or hasRole('CHEXIAO_INSTALL')  or hasRole('DEMO') or hasRole('DEMO2')   ">
+<a href="/mk/car/list.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/clxx.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">车辆信息
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+<@security.authorize access="hasRole('ROLE_MONITOR')">
+<a href="/mk/map/parking/toList.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/clxx.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">停车点
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+<@security.authorize access="hasRole('UXIN_HQ') or hasRole('UXIN_BR')">
+<a href="/mk/uxin/car/list.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/clxx.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">车辆信息
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+<@security.authorize access="hasRole('NOINSTALL')">
+<a href="/mk/noinstall/car.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/clxx.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">车辆信息
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+</div>
+<div class="tile-wrap">
+    <@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN')  or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL') ">
+    <a href="/mk/tj/licheng/list.html">
+        <div class="tile-box" data-scale="0.6">
+            <div class="tile image">
+                <div class="tile-body">
+                    <img src="/image/index/sjtj.png">
+                </div>
+                <div class="tile-object">
+                    <div class="namebig">数据统计
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</@security.authorize>
+<@security.authorize access="hasRole('CUSTOMER')  or hasRole('DEMO') or hasRole('DEMO2')  ">
+<a href="/mk/map/carall.html" target="_blank">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/sjtj.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">全局查询
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+<@security.authorize access="hasRole('UXIN_HQ') or hasRole('UXIN_BR')    or hasRole('NOINSTALL') or hasRole('MONITOR') ">
+<a href="/mk/gpsdata/chache.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/sjtj.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">快速查询
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+<@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL')  or hasRole('DEMO') or hasRole('DEMO2') ">
+<a href="/mk/gpsdata/chache.html">
+    <div class="tile-box" data-scale="1.1">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/wzfw.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">位置服务
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+<@security.authorize access="hasRole('UXIN_HQ') or hasRole('UXIN_BR') or hasRole('NOINSTALL')  or hasRole('MONITOR')">
+<a href="/mk/map/carall.html" target="_blank">
+    <div class="tile-box" data-scale="1.1">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/wzfw.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">全局查询
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+</div>
+<div class="tile-wrap">
+    <@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+    or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL') or hasRole('NOINSTALL')
+    or hasRole('ROLE_MONITOR') or hasRole('DEMO') or hasRole('DEMO2') or hasRole('CHEXIAO_PROVIENCE_INSTALL')
+    or hasRole('CAR_FIRM') or hasRole('CHEXIAO_CREDIT') or hasRole('UXIN_HQ') or hasRole('UXIN_BR')
+    or hasRole('HECHAUNGSP') or hasRole('MONITOR') or hasRole('SYSADMIN')">
+    <a href="/mk/gpsdata/warning/list.html?type=-1">
+        <div class="tile-box" data-scale="1.1">
+            <div class="tile image">
+                <div class="tile-body">
+                    <img src="/image/index/fxyj.png">
+                </div>
+                <div class="tile-object">
+                    <div class="namebig">风险预警
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</@security.authorize>
+<@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL') or hasRole('NOINSTALL')
+or  hasRole('ROLE_MONITOR')  or hasRole('DEMO') or hasRole('DEMO2')  ">
+<a href="/mk/gpsdata/offline/list.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/qyyj.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">离线管理
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+<@security.authorize access="hasRole('UXIN_HQ') or hasRole('UXIN_BR')">
+<a href="/mk/gpsdata/assemble/list.html">
+    <div class="tile-box" data-scale="0.6">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/qyyj.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">异常聚集预警
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+
+</div>
+<div class="tile-wrap">
+    <@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+    or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL') or hasRole('NOINSTALL')
+    or hasRole('ROLE_MONITOR') or hasRole('DEMO') or hasRole('DEMO2') or hasRole('CHEXIAO_PROVIENCE_INSTALL')
+    or hasRole('CAR_FIRM') or hasRole('CHEXIAO_CREDIT') or hasRole('UXIN_HQ') or hasRole('UXIN_BR')
+    or hasRole('HECHAUNGSP') or hasRole('MONITOR') or hasRole('SYSADMIN')">
+    <a href="/mk/gpsdata/report/list.html?type=100">
+        <div class="tile-box" data-scale="0.6">
+
+            <div class="tile image">
+                <div class="tile-body">
+                    <img src="/image/index/sbbj.png">
+                </div>
+                <div class="tile-object">
+                    <div class="namebig">设备报警
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </a>
+</@security.authorize>
+<@security.authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_SYSADMIN') or hasRole('CHEXIAO')
+or hasRole('CUSTOMER') or hasRole('INSTALL') or hasRole('CHEXIAO_INSTALL') or hasRole('NOINSTALL')
+or  hasRole('ROLE_MONITOR')  or hasRole('DEMO') or hasRole('DEMO2')  or hasRole('CHEXIAO_PROVIENCE_INSTALL')
+or hasRole('CAR_FIRM') or hasRole('CHEXIAO_CREDIT') or hasRole('UXIN_HQ') or hasRole('UXIN_BR')
+or hasRole('HECHAUNGSP') or hasRole('MONITOR') or hasRole('SYSADMIN')">
+<a href="/mk/gpsdata/report/list.html?type=-1">
+    <div class="tile-box" data-scale="1.1">
+        <div class="tile image">
+            <div class="tile-body">
+                <img src="/image/index/gwbj.png">
+            </div>
+            <div class="tile-object">
+                <div class="namebig">
+                    高危报警
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</@security.authorize>
+</div>
+</div>
+<#include "/common/hidden.html"/>
+<!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+</div>
+<#include "/common/footer.html"/>
+
+<script>
+    jQuery(document).ready(function () {
+        App.init(); // initlayout and core plugins
+        Index.initChat();
+
+        (function tileAutoF(){
+            var tileAutoTimeout;
+            var tileAuto = function(){
+                $('.tiles .tile-box').each(function(i,v){
+                    var $this = $(this),
+                        scale = $this.data('scale')||1,
+                        thisW = $this.width();
+                    $this.height(thisW*scale);
+                });
+            };
+            tileAuto();
+            $(window).resize(function(){
+                tileAutoTimeout = setTimeout(function(){
+                    clearTimeout(tileAutoTimeout);
+                    tileAuto();
+                },100);
+            });
+        })();
+    });
+</script>
+
+</body>

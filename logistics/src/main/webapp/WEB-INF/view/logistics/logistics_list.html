@@ -1,0 +1,1077 @@
+<#include "/common/header.html"/>
+
+<div class="container-fluid" style="background-color: #fff;" id="container">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href="/mk/logistics/list.html">数据管理</a>
+                    <i class="icon-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#" id="z_title">待分配</a>
+                </li>
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span8">
+            <ul id="z_tab">
+                <li onclick="daifenpeiBtn()">待分配</li>
+                <li onclick="yifenpeiBtn()">已分配</li>
+                <li onclick="yidaohuoBtn()">已到货</li>
+                <li onclick="yizuofeiBtn()">已作废</li>
+            </ul>
+        </div>
+        <div class="span2">
+            <button type="button" id="queryBtn" onclick="queryFun()" class="btn blue" style="width: 100px;">查询</button>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="queryForm" name="queryForm" method="post" action="/mk/logistics/create.html">
+                <div class="portlet-body form">
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="sender" id="sender_c"
+                                           autocomplete="off" placeholder="格式：1-1发件人"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人电话</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="senderTel" id="senderTel_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发货地址</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="senderAddress" id="senderAddress_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">门店名</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="storeName" id="storeName_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">门店编码</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="storeNum" id="storeNum_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiver" id="receiver_c"
+                                           autocomplete="off" placeholder="格式：1-1收件人"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人电话</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiverTel" id="receiverTel_c"
+                                           autocomplete="on"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人地址</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiverAddress"
+                                           id="receiverAddress_c" autocomplete="off" placeholder="格式：1-张镇"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4" id="z_showFreightCharge">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">代收费</label></div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="insteadCharge" id="insteadCharge_c"
+                                           onblur="changeInstead(value)" autocomplete="off">
+                                    <input type="text" class="m-wrap span6" style="display: none" name="instead"
+                                           id="instead_c" autocomplete="off" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">线路</label>
+                                </div>
+                                <div class="controls">
+                                    <select name="userId" id="userId_c" class="m-wrap span6">
+                                        <option value="">请选择</option>
+                                        <#list userList as item>
+                                            <option value="${ item.id}">
+                                                ${ item.routeName?if_exists}
+                                            </option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">数量</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="count" id="count_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">现付</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="nowPay" id="nowPay_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">到付</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="reachPay" id="reachPay_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">运费</label></div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="freightCharge" id="freightCharge_c"
+                                           autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">货物名称</label>
+                                </div>
+                                <div class="controls">
+                                    <!--<textarea id="goodsName_c" class="m-wrap span6" name="goodsName" autocomplete="off"></textarea>-->
+                                    <input type="text" class="m-wrap span6" name="goodsName" id="goodsName_c"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">备注</label>
+                                </div>
+                                <div class="controls">
+                                    <textarea id="remark_c" class="m-wrap span6" name="remark"
+                                              autocomplete="off"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <button type="button" id="printBtn" class="btn blue"
+                                        onclick="myPrint(document.getElementById('printId'))"
+                                        style="margin-left: 10px;width: 100px;">打印
+                                </button>
+                                <button type="button" id="createBtnOne" class="btn blue" onclick="createFun()"
+                                        style="margin-left: 10px;width: 100px;">创建
+                                </button>
+                                <button type="button" id="createBtn" class="btn blue"
+                                        onclick="myPrint(document.getElementById('printId'),true)"
+                                        style="margin-left: 10px;width: 100px;">打印并创建
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <div class="span1">
+                                <label class="control-label">查询时间</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" class="form-control span3 pull-left"
+                                       id="confirm_time_start" name="confirm_time_start" placeholder="创建开始时间"
+                                       autocomplete="off"> <span
+                                    style="line-height: 35px;">&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="form-control span3" id="confirm_time_end"
+                                       name="confirm_time_end" placeholder="创建结束时间" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" class="m-wrap span6" name="state" id="state" placeholder=""
+                           style="display: none;"/>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">&nbsp;<img id="loading" src="/image/loading.gif" style="display:none"></div>
+                    <div class="actions">
+                        <a id="z_allocation" onclick="allocationFun()" class="btn blue"><i class="icon-plus"></i> 分配</a>
+                    </div>
+                    <div class="actions">
+                        <a onclick="getTotalChargeFun()" id="z_totalMoney" class="btn blue"><i class="icon-plus"></i> 总计</a>
+                    </div>
+                    <div class="actions">
+                        <a onclick="deleteHsitoryDataFun()" id="z_deleteHsitoryData" class="btn blue"><i
+                                class="icon-minus"></i> 删除30天数据</a>
+                    </div>
+                    <div class="actions">
+                        <a id="z_exportExcel" onclick="exportExcel()" class="btn blue"><i class="icon-list-alt"></i>Excel导出</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped table-bordered table-hover table-full-width" id="device_table">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>发件人</th>
+                            <th>发件人电话</th>
+                            <th>发货地址</th>
+                            <th>门店名</th>
+                            <th>门店编号</th>
+                            <th>收件人</th>
+                            <th>收件人电话</th>
+                            <th>收货地址</th>
+                            <th>线路</th>
+                            <th>数量</th>
+                            <th>现付</th>
+                            <th>到付</th>
+                            <th>运费(元)</th>
+                            <th>是否代收</th>
+                            <th>代收费(元)</th>
+                            <th>货物名称</th>
+                            <th>备注</th>
+                            remark
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+    <ul id="printId" style="width:500px; height:500px; padding: 3px;font-size: 12px;margin:3px 0;border:1px solid gray">
+        <span style="font-size: 16px;line-height: 22px;margin:5px 0;display: inline-block">北京金益通宝物流有限公司</span>
+        <span id="now_time" style="width:100%; float: left;line-height: 12px; font-size: 12px;" class="print_1"></span>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">发：<span class="line_p" id="sender_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">电：<span class="line_p" id="senderTel_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">收：<span class="line_p" style="font-weight: bold;" id="receiver_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">电：<span class="line_p" id="receiverTel_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:100%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_1">收件地址：<span class="line_p" id="receiverAddress_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_1">数量：<span class="line_p" id="count_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">运费(元)：<span class="line_p" id="freightCharg_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_1">到付：<span class="line_p" id="freight_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">现付：<span class="line_p" id="collection_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:40%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">总额：<span class="line_p" id="totalMoney_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:60%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_1">线路：<span class="line_p" style="font-weight: bold;" id="userId_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:40%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_5">到应收：<span class="line_p" style="font-weight: bold;" id="receivable_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:100%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;"
+            class="print_1">备注：<span class="line_p" id="remark_p"></span></li>
+    </ul>
+</div>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<#include "/common/footer.html"/>
+<link href="/css/jquery.dataTables.css" rel="stylesheet"/>
+<link href="/css/datepicker.css" rel="stylesheet"/>
+<link href="/css/daterangepicker.css" rel="stylesheet"/>
+
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.json.min.js"></script>
+<script type="text/javascript" src="/js/date-format.js"></script>
+
+<script type="text/javascript" src="/js/ajaxupload.js"></script>
+<script>
+    $("#container").height("1150px");
+    var resultArr = [];
+
+    var oTable;
+
+    function initTable() {
+        if (oTable) {
+            oTable.fnDestroy();
+        }
+        var tableConstant = dataTableConstant.get();
+        oTable = $('#device_table').dataTable({
+            responsive: true,
+            ordering: false,
+            destroy: true,
+            searching: false,
+            "aoColumnDefs": [
+                {"aTargets": ['_all'], "bSortable": false}
+            ],
+            "oLanguage": {//下面是一些汉语翻译
+                "sLengthMenu": "",
+                "sZeroRecords": tableConstant.sZeroRecords,
+                "sInfo": tableConstant.sInfo,
+                "sInfoFiltered": tableConstant.sInfoFiltered,
+                "sInfoEmpty": tableConstant.sInfoEmpty,
+                "infoEmpty": tableConstant.infoEmpty,
+                "sProcessing": "<img src='/image/loading.gif' />",
+                "search": tableConstant.search,
+                "oPaginate":
+                    {
+                        "sFirst": tableConstant.oPaginate.sFirst,
+                        "sPrevious": tableConstant.oPaginate.sPrevious,
+                        "sNext": tableConstant.oPaginate.sNext,
+                        "sLast": tableConstant.oPaginate.sLast
+                    }
+            },
+            aoColumns: [
+                {mData: 'systemNum', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'sender', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'senderTel', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'senderAddress', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'storeName', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'storeNum', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'receiver', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'receiverTel', "sWidth": "6%", "defaultContent": ""},
+                {
+                    "mDataProp": "id", "sWidth": "6%",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html(oData.receiverAddress);
+                    }
+                },
+                {mData: 'routeName', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'count', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'nowPay', "sWidth": "4%", "defaultContent": ""},
+                {mData: 'reachPay', "sWidth": "4%", "defaultContent": ""},
+                {mData: 'freightCharge', "sWidth": "4%", "defaultContent": ""},
+                {
+                    "mDataProp": "id", "sWidth": "5%",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        if (parseInt(oData.instead) == '1') {
+                            $(nTd).html("是");
+                        } else {
+                            $(nTd).html("否");
+                        }
+                    }
+                },
+                {
+                    "mDataProp": "id", "sWidth": "5%",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html(oData.insteadCharge);
+                    }
+                },
+                {mData: 'goodsName', "sWidth": "4%", "defaultContent": ""},
+                {mData: 'remark', "sWidth": "7%", "defaultContent": ""},
+                {
+                    "mDataProp": "id", "sWidth": "12%",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        var htmlValue = "";
+                        if (oData.state == 1) {
+                            htmlValue += "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 1 + ")'>查看</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 2 + ")'>编辑</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toDel(" + sData + ")'>删除</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='cancel(" + sData + ")'" + "class='cancelClass'" + ">作废</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='dayin(" + iRow + ")'>打印</a>&nbsp;";
+                        } else if (oData.state == 2) {
+                            htmlValue += "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 1 + ")'>查看</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 2 + ")'>编辑</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toDel(" + sData + ")'>删除</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='cancel(" + sData + ")'" + "class='cancelClass'" + ">作废</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='dayin(" + iRow + ")'>打印</a>&nbsp;";
+                        } else if (oData.state == 3) {
+                            htmlValue += "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 1 + ")'>查看</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 2 + ")'>编辑</a>&nbsp;"
+                        } else {
+                            htmlValue += "<a href='javascript:void(0);' " + "onclick='toView(" + sData + "," + 1 + ")'>查看</a>&nbsp;" +
+                                "<a href='javascript:void(0);' " + "onclick='toDel(" + sData + ")'>删除</a>&nbsp;"
+                        }
+
+                        $(nTd).html(htmlValue);
+                    }
+                },
+            ],
+            "pagingType": tableConstant.pagingType,//翻页控件样式
+            "bFilter": false,
+            "bProcessing": true, // 是否显示取数据时的那个等待提示
+            "bServerSide": true,//这个用来指明是通过服务端来取数据
+            "sAjaxSource": "list/page.html",//这个是请求的地址
+            "fnServerData": retrieveData, // 获取数据的处理函数
+
+            fnDrawCallback: function (table) {
+                $("#device_table_paginate").append("  到第 <input style='height:28px;line-height:28px;width:40px;' class='margin text-center' id='changePage' type='text'> 页  <a class='btn btn-default shiny' style='margin-bottom:5px' href='javascript:void(0);' id='dataTable-btn'>确认</a>");
+                var oTable = $("#device_table").dataTable();
+                $('#dataTable-btn').click(function (e) {
+                    if ($("#changePage").val() && $("#changePage").val() > 0) {
+                        var redirectpage = $("#changePage").val() - 1;
+                    } else {
+                        var redirectpage = 0;
+                    }
+                    oTable.fnPageChange(redirectpage);
+                });
+            }
+        });
+        return oTable;
+    }
+
+    // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
+    function retrieveData(sSource, aoData, fnCallback) {
+        var createTimeStart = $("#confirm_time_start").val() ? $("#confirm_time_start").val() + ' 00:00:00' : '';
+        var createTimeEnd = $("#confirm_time_end").val() ? $("#confirm_time_end").val() + ' 23:59:59' : '';
+        $.ajax({
+            url: sSource,//这个就是请求地址对应sAjaxSource 终端ID号，卡号，终端型号，终端类型，终端批次，安装公司，终端状态（已占用，未占用），客户名称
+            data: {
+                "aoData": JSON.stringify(aoData),
+                "sender": $("#sender_c").val(),
+                "senderTel": $("#senderTel_c").val(),
+                "senderAddress": $("#senderAddress_c").val(),
+                "storeName": $("#storeName_c").val(),
+                "storeNum": $("#storeNum_c").val(),
+                "receiver": $("#receiver_c").val(),
+                "receiverTel": $("#receiverTel_c").val(),
+                "receiverAddress": $("#receiverAddress_c").val(),
+                "userId": $('#userId_c').val(),
+                "count": $("#count_c").val(),
+                "nowPay": $("#nowPay_c").val(),
+                "reachPay": $("#reachPay_c").val(),
+                "freightCharge": $("#freightCharge_c").val(),
+                "insteadCharge": $("#insteadCharge_c").val(),
+                "goodsName": $("#goodsName_c").val(),
+                "remark": $("#remark_c").val(),
+                "state": $("#state").val(),
+                "createTimeStart": createTimeStart,
+                "createTimeEnd": createTimeEnd
+            },//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+            type: 'post',
+            dataType: 'json',
+            async: true,
+            success: function (result) {
+                $('#queryBtn').prop('disabled', false);
+                $("#loading").hide(500);
+                fnCallback(result);//把返回的数据传给这个方法就可以了,datatable会自动绑定数据的
+                resultArr = result.aaData;
+                if ($("#device_table_wrapper>table").prev()) {
+                    $("#device_table_wrapper>table").prev().remove();
+                }
+            },
+            error: function (msg) {
+                $('#queryBtn').prop('disabled', false);
+                $("#loading").hide(500);
+            }
+        });
+    }
+
+    //查询
+    function queryFun() {
+        $('#queryBtn').prop('disabled', true);
+        $("#loading").show(500);
+        initTable();
+    }
+
+    // 待分配
+    function daifenpeiBtn() {
+        $('#z_allocation').show();
+        $('#z_exportExcel').show();
+        $('#z_totalMoney').hide();
+        $('#z_title').html('待分配')
+        $("#state").val('1')
+        queryFun();
+        sessionStorage.setItem('state', JSON.stringify(1));
+    }
+
+    //已分配
+    function yifenpeiBtn() {
+        $('#z_allocation').hide();
+        $('#z_totalMoney').hide();
+        $('#z_exportExcel').show();
+        $("#state").val('2')
+        $('#z_title').html('已分配');
+        queryFun();
+        sessionStorage.setItem('state', JSON.stringify(2));
+    }
+
+    //已到货
+    function yidaohuoBtn() {
+        $('#z_allocation').hide();
+        $('#z_totalMoney').show();
+        $('#z_exportExcel').show();
+        $("#state").val('3')
+        $('#z_title').html('已到货');
+        queryFun();
+        sessionStorage.setItem('state', JSON.stringify(3));
+    }
+
+    //已作废
+    function yizuofeiBtn() {
+        $('#z_allocation').hide();
+        $('#z_totalMoney').hide();
+        $('#z_exportExcel').show();
+        $("#state").val('-1')
+        $('#z_title').html('已作废');
+        $('#cancelClass').hide();
+        queryFun();
+        sessionStorage.setItem('state', JSON.stringify(-1));
+    }
+
+    jQuery(document).ready(function () {
+        var getState = sessionStorage.getItem('state');
+        if (getState != null) {
+            $("#state").val(getState)
+        } else {
+            getState == '1';
+            $("#state").val('1')
+        }
+
+        $.fn.datetimepicker.dates['zh'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["日", "一", "二", "三", "四", "五", "六", "日"],
+            daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],
+            meridiem: ["上午", "下午"],
+            //suffix:      ["st", "nd", "rd", "th"],
+            today: "今天"
+        };
+        $("#confirm_time_start").datetimepicker({
+            language: 'zh',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayBtn: true,
+            startView: 'month',
+            minView: 'year',
+            maxView: 'day'
+        });
+        $("#confirm_time_end").datetimepicker({
+            language: 'zh',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayBtn: true,
+            startView: 'month',
+            minView: 'year',
+            maxView: 'day'
+        });
+
+
+        $("#z_tab li").removeClass('selected')
+        if (getState == 1) {
+            $("#z_tab li:nth-child(1)").addClass('selected')
+            $('#z_title').html('待分配')
+            $('#z_allocation').show();
+            $('#z_totalMoney').hide()
+        } else if (getState == 2) {
+            $("#z_tab li:nth-child(2)").addClass('selected')
+            $('#z_title').html('已分配');
+            $('#z_allocation').hide();
+            $('#z_totalMoney').hide();
+        } else if (getState == 3) {
+            $("#z_tab li:nth-child(3)").addClass('selected')
+            $('#z_title').html('已到货');
+            $('#z_allocation').hide();
+            $('#z_totalMoney').show();
+        } else if (getState == -1) {
+            $("#z_tab li:last-child").addClass('selected')
+            $('#z_title').html('已作废');
+            $('#z_allocation').hide();
+            $('#z_totalMoney').hide();
+        } else {
+            $("#z_tab li:nth-child(1)").addClass('selected')
+            $('#z_title').html('待分配')
+            $('#z_allocation').show();
+            $('#z_totalMoney').hide()
+        }
+
+        App.init(); // initlayout and core plugins
+        initTable();
+
+        $("#z_allocation").mouseenter(function () {
+            layer.tips('分配', '#z_allocation', {
+                tips: 1,
+                time: 2000
+            });
+        });
+
+        $("#z_totalMoney").mouseenter(function () {
+            layer.tips('总计', '#z_totalMoney', {
+                tips: 1,
+                time: 2000
+            });
+        });
+        $("#z_deleteHsitoryData").mouseenter(function () {
+            layer.tips('删除30天数据', '#z_deleteHsitoryData', {
+                tips: 1,
+                time: 2000
+            });
+        });
+
+    });
+
+    function exportExcel() {
+        $("#queryForm").attr("action", "/mk/logistics/exportData.html");
+        $("#queryForm").submit();
+    }
+
+    function allocationFun() {
+        layer.open({
+            type: 1,
+            title: false, //不显示标题栏
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.3,
+            id: 'LAY_layuipro_allocation', //设定一个id，防止重复弹出
+            btn: ['确认', '取消'],
+            btnAlign: 'c',
+            moveType: 1,//拖拽模式，0或者1
+            content: '<div style="padding: 50px; line-height: 22px; color: #000; font-weight: 300;">确认全部分配吗！<br></div>',
+            yes: function () {
+                $.ajax({
+                    url: "/mk/logistics/sendAll.html",
+                    data: {},
+                    type: "post",
+                    success: function (backdata) {
+                        var data = JSON.parse(backdata);
+                        if (data.code == 1) {
+                            layer.msg('分配成功');
+                            queryFun();
+                        } else {
+                            layer.msg('分配失败');
+                        }
+                        setTimeout(function () {
+                            layer.closeAll();
+                        }, 800)
+                    }, error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    }
+
+    function getTotalChargeFun() {
+        $.ajax({
+            url: "/mk/logistics/getTotalCharge.html",
+            data: {},
+            type: "post",
+            success: function (backdata) {
+                var data = JSON.parse(backdata)
+                var freightChargeTotal = data.freightChargeTotal || 0;
+                var insteadChargeTotal = data.insteadChargeTotal || 0;
+                layer.open({
+                    type: 1,
+                    title: false, //不显示标题栏
+                    closeBtn: false,
+                    area: '300px;',
+                    shade: 0.3,
+                    id: 'LAY_layuipro_getTotalCharge', //设定一个id，防止重复弹出
+                    btn: ['确认', '关闭'],
+                    btnAlign: 'c',
+                    moveType: 1,//拖拽模式，0或者1
+                    content: '<div style="padding: 40px 40px 0; line-height: 22px; color: #000; font-weight: 300;"> ' + data.date + '&nbsp; 总计：' + '<br>运费： ' + freightChargeTotal + '\&nbsp;元<br>代收费：' + insteadChargeTotal + '\&nbsp;元</div>',
+                    success: function (layero) {
+
+                    },
+                })
+            }, error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteHsitoryDataFun() {
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.3,
+            id: 'LAY_layuipro_deleteHsitoryData', //设定一个id，防止重复弹出
+            btn: ['确认', '取消'],
+            btnAlign: 'c',
+            moveType: 1,//拖拽模式，0或者1
+            content: '<div style="padding: 40px 40px 20px; line-height: 22px; color: #000; font-weight: 300;">确认删除超过30天的已有数据吗？<br></div>',
+            yes: function () {
+                $.ajax({
+                    url: "/mk/logistics/deleteHsitoryData.html",
+                    data: {},
+                    type: "post",
+                    success: function (backdata) {
+                        var data = JSON.parse(backdata)
+                        if (data.code == 1) {
+                            layer.msg('删除成功');
+                            queryFun();
+                        } else {
+                            layer.msg('删除失败');
+                        }
+                        setTimeout(function () {
+                            layer.closeAll();
+                        }, 800)
+                    }, error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    }
+
+    function toView(logisticsId, flag) {
+        window.location.href = "/mk/logistics/toView.html?logisticsId=" + logisticsId + "&type=" + flag;
+    }
+
+    function toDel(logisticsId) {
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.3,
+            id: 'LAY_layuipro_toDel', //设定一个id，防止重复弹出
+            btn: ['确认', '取消'],
+            btnAlign: 'c',
+            moveType: 1,//拖拽模式，0或者1
+            content: '<div style="padding: 40px 40px 20px; line-height: 22px; color: #000; font-weight: 300;">确认删除此条数据吗？<br></div>',
+            yes: function () {
+                $.ajax({
+                    url: "/mk/logistics/delete.html",
+                    data: {"logisticsId": logisticsId},
+                    type: "post",
+                    success: function (backdata) {
+                        var data = JSON.parse(backdata)
+                        if (data.code == 1) {
+                            layer.msg('删除成功');
+                            queryFun();
+                        } else {
+                            layer.msg('删除失败');
+                        }
+                        setTimeout(function () {
+                            layer.closeAll();
+                        }, 800)
+                    }, error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    }
+
+    function cancel(logisticsId) {
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.3,
+            id: 'LAY_layuipro_toDel', //设定一个id，防止重复弹出
+            btn: ['确认', '取消'],
+            btnAlign: 'c',
+            moveType: 1,//拖拽模式，0或者1
+            content: '<div style="padding: 40px 40px 20px; line-height: 22px; color: #000; font-weight: 300;">确认作废此条数据吗？<br></div>',
+            yes: function () {
+                $.ajax({
+                    url: "/mk/logistics/cancel.html",
+                    data: {"logisticsId": logisticsId},
+                    type: "post",
+                    success: function (backdata) {
+                        var data = JSON.parse(backdata);
+                        if (data.code == 1) {
+                            layer.msg('作废成功');
+                            queryFun();
+                        } else {
+                            layer.msg('作废失败');
+                        }
+                        setTimeout(function () {
+                            layer.closeAll();
+                        }, 800)
+                    }, error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+        });
+    }
+
+    function myPrint(obj, flag) {
+        if ($("#receiver_c").val() == "") {
+            layer.tips('请输入收货人', '#receiver_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+        if ($("#sender_c").val() == '') {
+            layer.tips('请输入发件人', '#sender_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if ($("#userId_c").val() == "") {
+            layer.tips('选择线路', '#userId_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+        var date = new Date();
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() < 10 ? '0' + date.getDate() + ':' : date.getDate() + ':';
+        var h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
+        var m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
+        var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        $('#now_time').html(Y + M + D + h + m + s);
+
+        var checkText = $("#userId_c").find("option:selected").text()
+        var instead_c = '';
+        if ($('#insteadCharge_c').val() && $('#insteadCharge_c').val() != 0) {
+            instead_c = '是';
+            $('#instead_c').val(1);
+        } else {
+            instead_c = '否';
+            $('#instead_c').val(0);
+        }
+        if (!$('#count_c').val()) {
+            $('#count_c').val(0);
+        }
+        $('#receiverAddress_p').html($('#receiverAddress_c').val());
+        $('#receiver_p').html($('#receiver_c').val())
+        $('#receiverTel_p').html($('#receiverTel_c').val())
+        $('#freightCharg_p').html($('#freightCharge_c').val())
+        $('#instead_p').html(instead_c)
+        $('#sender_p').html($('#sender_c').val())
+        $('#senderTel_p').html($('#senderTel_c').val())
+        $('#count_p').html($('#count_c').val())
+        $('#userId_p').html(checkText)
+        $('#remark_p').html($('#remark_c').val())
+
+        $('#freight_p').html($('#reachPay_c').val())
+        $('#collection_p').html($('#nowPay_c').val())
+//        带应收
+        if ($('#freightCharg_c').val() == 0) {//运费为0，代收 加运费
+            $('#receivable_p').html($('#reachPay_c').val() + $('#nowPay_c').val())
+        } else {//有运费 ，收到付
+            $('#receivable_p').html($('#reachPay_c').val())
+        }
+        $('#totalMoney_p').html(Number($('#freightCharge_c').val()) + Number($('#reachPay_c').val()) + Number($('#nowPay_c').val())) //总额
+
+        var newWindow = window.open("打印窗口", "_blank");
+        var docStr = obj.innerHTML;
+        newWindow.document.write(docStr);
+        newWindow.document.close();
+        newWindow.print();
+        newWindow.close();
+        if (flag) {
+            $("#queryForm").submit();
+        }
+    }
+
+    function dayin(index) {
+        var date = new Date();
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() < 10 ? '0' + date.getDate() + ':' : date.getDate() + ':';
+        var h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
+        var m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
+        var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        $('#now_time').html(Y + M + D + h + m + s);
+
+        var tableData = resultArr[index];
+        var instead_u;
+        if (tableData.instead == 1) {
+            instead_u = '是'
+        } else if (tableData.instead == 0) {
+            instead_u = '否'
+        } else {
+            instead_u = ''
+        }
+        $('#receiverAddress_p').html(tableData.receiverAddress);
+        $('#receiver_p').html(tableData.receiver)
+        $('#receiverTel_p').html(tableData.receiverTel)
+        $('#freightCharg_p').html(tableData.freightCharge)
+        $('#instead_p').html(instead_u)
+        $('#count_p').html(tableData.count);
+        $('#sender_p').html(tableData.sender)
+        $('#senderTel_p').html(tableData.senderTel)
+        $('#userId_p').html(tableData.routeName)
+        $('#remark_p').html(tableData.remark)
+
+        $('#freight_p').html(tableData.reachPay)
+        $('#collection_p').html(tableData.nowPay)
+//        带应收
+        console.log(tableData)
+        if (tableData.freightCharge == 0) {//运费为0，代收 加运费
+            $('#receivable_p').html(tableData.reachPay + tableData.nowPay)
+        } else {//有运费 ，收到付
+            $('#receivable_p').html(tableData.reachPay)
+        }
+        $('#totalMoney_p').html(Number(tableData.freightCharge) + Number(tableData.reachPay) + Number(tableData.nowPay)) //总额
+
+        var newstr = document.getElementById('printId').innerHTML;//得到需要打印的元素HTML
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = newstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        window.location.reload(true);
+        return false;
+    }
+
+    function createFun() {
+        if ($("#receiver_c").val() == "") {
+            layer.tips('请输入收货人', '#receiver_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+        if ($("#sender_c").val() == '') {
+            layer.tips('请输入发件人', '#sender_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if ($("#userId_c").val() == "") {
+            layer.tips('选择线路', '#userId_c', {
+                tips: [1, '#e85555'],
+                anim: 6,
+                time: 2000
+            });
+            return;
+        }
+        var instead_c = '';
+        if ($('#insteadCharge_c').val() && $('#insteadCharge_c').val() != 0) {
+            $('#instead_c').val(1);
+        } else {
+            $('#instead_c').val(0);
+        }
+        if (!$('#count_c').val()) {
+            $('#count_c').val(0);
+        }
+        $("#queryForm").submit();
+    }
+
+    function trackSearch(deviceNum) {
+        window.location.href = '/mk/position/positionList.html?deviceNum=' + deviceNum;
+    }
+
+    //切换tab
+    $("#z_tab li").click(function () {
+        $(this).siblings('li').removeClass('selected');
+        $(this).addClass('selected');
+    });
+
+    //是否代收
+    function changeInstead(value) {
+        if (value && value != 0) {
+            $('#instead_c').val(1)
+        } else {
+            $('#instead_c').val(0)
+        }
+    }
+
+</script>
+
+</body>
+<!-- END BODY -->
+</html>

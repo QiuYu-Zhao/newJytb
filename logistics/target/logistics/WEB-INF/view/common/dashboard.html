@@ -1,0 +1,74 @@
+<#include "/common/header.html"/>
+<#include "/common/footer.html"/>
+<body style="background-color: #fff;">
+<div class="container-fluid" style="background-color: #fff;" id="container">
+	<!-- BEGIN PAGE HEADER-->
+	<div class="row-fluid">
+		<div class="span12">
+
+			<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+			<h3 class="page-title">车晓风控平台</h3>
+			<ul class="breadcrumb">
+
+				<li><a href="#">首页</a> <i class="icon-angle-right"></i></li>
+				<li><a href="#">工作台</a></li>
+			</ul>
+			<!-- END PAGE TITLE & BREADCRUMB-->
+		</div>
+	</div>
+	<!-- END PAGE HEADER-->
+
+	<div class="row-fluid top-news">
+		<div class="span3">
+			<a href="/mk/gongdan/customer/toAdd.html" class="btn green">
+				<span>创建新装工单</span>
+				<em>新装设备</em>
+				<em>
+					<i class="icon-tags"></i>
+				</em>
+				<i class="icon-book top-news-icon"></i>
+			</a>
+		</div>
+		<div class="span3">
+			<a href="/mk/gongdan/customer/toRemoveAdd.html" class="btn blue">
+				<span>创建拆机工单</span>
+				<em>拆除设备</em>
+				<em>
+					<i class="icon-tags"></i>
+				</em>
+				<i class="icon-book top-news-icon"></i>
+			</a>
+		</div>
+
+		<div class="span3">
+			<a href="/mk/gongdan/customer/toList.html" class="btn purple">
+				<span>工单查询</span>
+				<em>工单列表</em>
+				<em>
+					<i class="icon-tags"></i>
+				</em>
+				<i class="icon-book top-news-icon"></i>
+			</a>
+		</div>
+		<div class="span3">
+			<a href="/mk/gongdan/customer/toList.html?state=41" class="btn black ">
+				<span>完成工单</span>
+				<em>完成工单</em>
+				<em>
+					<i class="icon-tags"></i>
+					${FINISH?if_exists}
+				</em>
+				<i class="icon-book top-news-icon"></i>
+			</a>
+		</div>
+	</div>
+
+
+</div>
+<script>
+	jQuery(document).ready(function () {
+		$("#container").height(${minheight});
+
+	});
+</script>
+</body>

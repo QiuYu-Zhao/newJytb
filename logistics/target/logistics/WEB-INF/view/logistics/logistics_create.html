@@ -1,0 +1,541 @@
+<#include "/common/header.html"/>
+
+<div class="container-fluid" style="background-color: #fff;" id="container">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href="/mk/logistics/list.html">数据管理</a>
+                    <i class="icon-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#" id="z_title">创建物流单</a>
+                </li>
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="queryForm" name="queryForm" method="post" action="/mk/logistics/create.html">
+                <div class="portlet-body form">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收货人</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6"  name = "receiver" id = "receiver_c" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人电话</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name ="receiverTel"  id ="receiverTel_c" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label" >运费</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name = "freightCharge" id = "freightCharg_c" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <div class="span1">
+                                    <label class="control-label">收件人地址</label>
+                                </div>
+                                <div class="span9" style="margin-left: 1.5%;">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <select name="provinceId" id= "create_province" data-placeholder=" " class="span2" onchange="changeCreate_province()" >
+                                                <option value="">请选择</option>
+                                                <#list provinceList as province>
+                                                    <option value="${ province.id},${ province.name }">
+                                                        ${ province.name?if_exists}
+                                                    </option>
+                                                </#list>
+                                            </select>
+                                            <input type="text" style="display: none" name = "receiverProvince" id = "receiverProvince_c" />
+                                            <input type="text" style="display: none" name = "receiverProvinceName" id = "receiverProvinceName_c" />
+
+
+                                            <select name="create_city" id="create_city" class="span2" onchange="changeCreate_city()"> </select>
+                                            <input type="text" style="display: none" name = "receiverCity" id = "receiverCity_c" />
+                                            <input type="text" style="display: none" name = "receiverCityName" id = "receiverCityName_c" />
+
+                                            <select name="create_area" id="create_area" class="span2" onchange="changeCreate_area()"> </select>
+                                            <input type="text" style="display: none" name = "receiverArea" id = "receiverArea_c" />
+                                            <input type="text" style="display: none" name = "receiverAreaName" id = "receiverAreaName_c" />
+
+
+                                            <select name="create_street" id="create_street" class="span2" onchange="changeCreate_strees()"> </select>
+                                            <input type="text" style="display: none" name = "receiverStreet" id = "receiverStreet_c" />
+                                            <input type="text" style="display: none" name = "receiverStreetName" id = "receiverStreetName_c" />
+
+                                            <input type="text" class="m-wrap span3" name = "receiverAddress" id = "receiverAddress_c" autocomplete="off" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">是否代收</label></div>
+                                <div class="controls">
+                                    <select style="width:180px;" onchange="insteadChange(value)" id="instead_c" name="instead">
+                                        <option value="0">否</option>
+                                        <option value="1">是</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4" id="z_showFreightCharge">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">代收费</label></div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name = "insteadCharge" id = "insteadCharge_c" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">备注</label>
+                                </div>
+                                <div class="controls">
+                                    <textarea id="remark_c" name="remark" autocomplete="off"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name = "sender" id = "sender_c" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人电话</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name = "senderTel" id = "senderTel_c" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label" >线路</label>
+                                </div>
+                                <div class="controls">
+                                    <select name="userId" id= "userId_c" class="m-wrap span6">
+                                        <option value="">请选择</option>
+                                        <#list userList as item>
+                                            <option value="${ item.id}">
+                                                ${ item.routeName?if_exists}
+                                            </option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row-fluid">
+                    <div class="span4"></div>
+                    <div class="span4"></div>
+                    <div class="span4">/
+                        <div class="control-group">
+                            <button type="button" id="printBtn" class="btn blue"  onclick="dayin()" style="margin-left: 10px;width: 100px;">创建</button>
+                            <button type="button" id="queryBtn" class="btn blue"  onclick="creatSub()" style="margin-left: 10px;width: 100px;">创建</button>
+                            <button type="button" class="btn grey" onclick="javascript:history.go(-1);"  style="margin-left: 10px;width: 100px;">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function myPrint(obj){
+
+
+            var address = $('#receiverProvinceName_c').val() + $('#receiverCityName_c').val() + $('#receiverAreaName_c').val()+ $('#receiverStreetName_c').val() + $('#receiverAddress_c').val();
+            var instead_c;
+            if($('#instead_c').val() == 1){
+                instead_c = '是'
+            }else{
+                instead_c = '否'
+            }
+            $('#receiverAddress_p').html(address);
+            $('#receiver_p').html($('#receiver_c').val())
+            $('#receiverTel_p').html($('#receiverTel_c').val())
+            $('#freightCharg_p').html($('#freightCharg_c').val())
+            $('#instead_p').html(instead_c)
+            $('#sender_p').html($('#sender_c').val())
+            $('#senderTel_p').html($('#senderTel_c').val())
+            $('#userId_p').html($('#userId_c_name').val())
+            $('#remark_p').html($('#remark_c').val())
+
+
+            var newWindow=window.open("打印窗口","_blank");
+            var docStr = obj.innerHTML;
+            newWindow.document.write(docStr);
+            newWindow.document.close();
+            newWindow.print();
+            newWindow.close();
+        }
+    </script>
+    <div id="print">
+        <hr />
+        <!--打印演示区域,点击打印后会在新窗口加载这里的内容！-->
+        <div class="row-fluid">
+            <ul id="printId">
+                <h6>北京金益通宝物流有限公司</h6>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">收件人地址： <span class="line_p" id = "receiverAddress_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">收货人： <span class="line_p" id = "receiver_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">收件人电话： <span class="line_p" id = "receiverTel_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">运费(元)： <span class="line_p" id = "freightCharg_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">是否代收： <span class="line_p" id = "instead_p"></span></label></li>
+                <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">代收费： </label><span class="line_p" id = "insteadCharge_p"></span></li>-->
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">发件人： <span class="line_p" id = "sender_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">发件人电话： <span class="line_p" id = "senderTel_p"></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">线路： <span class="line_p" id = "userId_p"></span></span></label></li>
+                <li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">备注： <span class="line_p" id = "remark_p"></span></label></li>
+            </ul>
+        </div>
+        <hr />
+    </div>
+    <button onclick="myPrint(document.getElementById('print'))">打 印</button>
+
+
+
+    <!--<div class="row-fluid">-->
+        <!--<ul id="printId">-->
+            <!--<h6>北京金益通宝物流有限公司</h6>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">收件人地址： <span class="line_p" id = "receiverAddress_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">收货人： <span class="line_p" id = "receiver_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">收件人电话： <span class="line_p" id = "receiverTel_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">运费(元)： <span class="line_p" id = "freightCharg_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">是否代收： <span class="line_p" id = "instead_p"></span></label></li>-->
+            <!--&lt;!&ndash;<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">代收费： </label><span class="line_p" id = "insteadCharge_p"></span></li>&ndash;&gt;-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">发件人： <span class="line_p" id = "sender_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_5"><label class="control-label">发件人电话： <span class="line_p" id = "senderTel_p"></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">线路： <span class="line_p" id = "userId_p"></span></span></label></li>-->
+            <!--<li style="list-style:none;border-bottom:1px dotted blue;" class="print_1"><label class="control-label">备注： <span class="line_p" id = "remark_p"></span></label></li>-->
+        <!--</ul>-->
+    <!--</div>-->
+
+
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="span12">
+
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+</div>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<#include "/common/footer.html"/>
+<link href="/css/jquery.dataTables.css" rel="stylesheet" />
+
+<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.json.min.js"></script>
+<script type="text/javascript" src="/js/date-format.js"></script>
+
+<script type="text/javascript" src="/js/ajaxupload.js"></script>
+<script>
+    $("#container").height("700px");
+
+    function dayin(){
+        var address = $('#receiverProvinceName_c').val() + $('#receiverCityName_c').val() + $('#receiverAreaName_c').val()+ $('#receiverStreetName_c').val() + $('#receiverAddress_c').val();
+        var instead_c;
+        if($('#instead_c').val() == 1){
+            instead_c = '是'
+        }else{
+            instead_c = '否'
+        }
+        $('#receiverAddress_p').html(address);
+        $('#receiver_p').html($('#receiver_c').val())
+        $('#receiverTel_p').html($('#receiverTel_c').val())
+        $('#freightCharg_p').html($('#freightCharg_c').val())
+        $('#instead_p').html(instead_c)
+        $('#sender_p').html($('#sender_c').val())
+        $('#senderTel_p').html($('#senderTel_c').val())
+        $('#userId_p').html($('#userId_c_name').val())
+        $('#remark_p').html($('#remark_c').val())
+
+        var newstr = document.getElementById('printId').innerHTML;//得到需要打印的元素HTML
+        var oldstr = document.body.innerHTML;
+
+        document.body.innerHTML = newstr;
+
+
+
+        var newWindow=window.open("打印窗口","_blank");
+        newWindow.document.write(newstr);
+
+
+        newWindow.document.close();
+
+
+        setTimeout(function () {
+            newWindow.print();
+            newWindow.close();
+        },50);
+
+
+
+
+//        window.print();
+//        document.body.innerHTML = oldstr;
+//        return false;
+    }
+
+
+    //省查市
+    function changeCreate_province(val){
+        var province = $("#create_province").val().split(",");
+        var html = "<option value=''>请选择</option>";
+        if(province[0] != ''){
+            $.ajax({
+                type : "post",
+                dataType : "JSON",
+                url : "/mk/area/getCityByProvince.html",
+                data : {  'provinceId':province[0] },
+                success : function(data) {
+                    var jsonArr = eval(data.cityList);
+                    for(var i = 0; i < jsonArr.length; i++) {
+                        var id = jsonArr[i].id.toString();
+                        var name = jsonArr[i].name.toString();
+                        var option = "<option value='"+id+','+name+"'>"+name+"</option>";
+                        html+=option;
+                    }
+                    $("#create_city").empty().html(html);
+                    $("#create_area").empty().html();
+                    $("#create_street").empty().html();
+                    $('#receiverAddress_c').empty().html();
+
+                    $('#receiverProvince_c').val(province[0]);
+                    $('#receiverProvinceName_c').val(province[1])
+                    $('#receiverCity_c').val('');
+                    $('#receiverCityName_c').val('')
+                    $('#receiverArea_c').val('');
+                    $('#receiverAreaName_c').val('')
+                    $('#receiverStreet_c').val('');
+                    $('#receiverStreetName_c').val('')
+                }
+            });
+        }
+    }
+    //市查区
+    function changeCreate_city() {
+        var create_city = $("#create_city").val().split(",");
+        var html = "<option value=''>请选择</option>";
+        if(create_city[0] != ''){
+            $.ajax({
+                type : "post",
+                dataType : "JSON",
+                url : "/mk/area/getAreaByCity.html",
+                data : {  'cityId':create_city[0] },
+                success : function(data) {
+                    var jsonArr = eval(data.areaList);
+                    for(var i = 0; i < jsonArr.length; i++) {
+                        var id = jsonArr[i].id.toString();
+                        var name = jsonArr[i].name.toString();
+                        var option = "<option value='"+id+','+name+"'>"+name+"</option>";
+                        html+=option;
+                    }
+                    $("#create_area").empty().html(html);
+                    $("#create_street").empty().html();
+                    $('#receiverAddress_c').empty().html();
+
+                    $('#receiverCity_c').val(create_city[0]);
+                    $('#receiverCityName_c').val(create_city[1])
+                    $('#receiverArea_c').val('');
+                    $('#receiverAreaName_c').val('')
+                    $('#receiverStreet_c').val('');
+                    $('#receiverStreetName_c').val('')
+                }
+            });
+        }
+    }
+    //区查街
+    function changeCreate_area() {
+        var create_area = $("#create_area").val().split(",");
+        var html = "<option value=''>请选择</option>";
+        if(create_area[0] != ''){
+            $.ajax({
+                type : "post",
+                dataType : "JSON",
+                url : "/mk/area/getStreetByArea.html",
+                data : {  'areaId':create_area[0] },
+                success : function(data) {
+                    var jsonArr = eval(data.streetList);
+                    for(var i = 0; i < jsonArr.length; i++) {
+                        var id = jsonArr[i].id.toString();
+                        var name = jsonArr[i].name.toString();
+                        var option = "<option value='"+id+','+name+"'>"+name+"</option>";
+                        html+=option;
+                    }
+                    $("#create_street").empty().html(html);
+                    $('#receiverAddress_c').empty().html();
+
+                    $('#receiverArea_c').val(create_area[0]);
+                    $('#receiverAreaName_c').val(create_area[1])
+
+                    $('#receiverStreet_c').val();
+                    $('#receiverStreetName_c').val()
+                }
+            });
+        }
+    }
+
+    //街选中
+    function changeCreate_strees(){
+        var create_street = $("#create_street").val().split(",");
+        $('#receiverStreet_c').val(create_street[0]);
+        $('#receiverStreetName_c').val(create_street[1])
+    }
+
+    function creatSub() {
+        if($("#receiver_c").val() == ""){
+            layer.tips('请输入收货人', '#receiver_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#receiverTel_c").val() == ""){
+            layer.tips('请输收货人电话', '#receiverTel_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#freightCharg_c").val() == ''){
+            layer.tips('请输入运费', '#freightCharg_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if($("#create_province").val() == ""){
+            layer.tips('请选择省', '#create_province', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#create_city").val() == ""){
+            layer.tips('请选择市', '#create_city', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#create_area").val() == ""){
+            layer.tips('请选择区', '#create_area', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#create_street").val() == ""){
+            layer.tips('请选择街道', '#create_street', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if($("#userId_c").val() == ""){
+            layer.tips('选择线路', '#userId_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        $("#queryForm").submit();
+
+    }
+
+    jQuery(document).ready(function () {
+        $('#z_showFreightCharge').hide();
+
+    });
+    //是否代收
+    function insteadChange(val) {
+        if(val == 1){
+            $('#z_showFreightCharge').show();
+            $('#insteadCharge_c').val(0);
+        }else{
+            $('#z_showFreightCharge').hide();
+            $('#insteadCharge_c').val(0);
+        }
+    }
+
+</script>
+
+</body>
+<!-- END BODY -->
+</html>

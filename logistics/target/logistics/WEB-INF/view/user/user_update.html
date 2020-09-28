@@ -1,0 +1,154 @@
+<#include "/common/header.html"/>
+
+<div class="container-fluid" style="background-color: #fff;" id="container">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href="/mk/admin/user/list.html">线路管理</a>
+                    <i class="icon-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#" id="z_title">编辑线路</a>
+                </li>
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="queryForm" name="queryForm" method="post" action="/mk/admin/user/update.html">
+
+                <div class="portlet-body form">
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">线路名</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6"  name = "routeName" id = "routeName_c" autocomplete="off" value="${ userModel.routeName}" />
+                                    <input type="text" class="m-wrap span6"  name = "id" style="display: none" value="${ userModel.id}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">账号</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name ="username"  id ="username_c"   placeholder="" autocomplete="off" value="${ userModel.userName}" disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label" >密码</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name = "password" id = "password_c" autocomplete="off"  placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <div class="control-group">
+                                <div class="span2">
+                                    <label class="control-label" >权限</label>
+                                </div>
+                                <div class="controls" id="auth_c"  >
+                                    <label style="width:20%; display: inline-block;"><input type="radio" name="role" value="ADMIN">ADMIN</label>
+                                    <label style="width:20%; display: inline-block;"><input type="radio" name="role" value="PC">PC</label>
+                                    <label style="width:20%; display: inline-block;"><label><input type="radio" name="role" value="APP">APP</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4"></div>
+                        <div class="span4"></div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <button type="button" id="queryBtn" class="btn blue"  onclick="creatSub()" style="width: 100px;">保存</button>
+                                <button type="button" class="btn grey" onclick="javascript:history.go(-1);"  style="margin-left: 10px;width: 100px;">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<#include "/common/footer.html"/>
+<link href="/css/jquery.dataTables.css" rel="stylesheet" />
+
+<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.json.min.js"></script>
+<script type="text/javascript" src="/js/date-format.js"></script>
+
+<script type="text/javascript" src="/js/ajaxupload.js"></script>
+<script>
+    $("#container").height("600px");
+
+    function creatSub() {
+        if($("#routeName_c").val() == ""){
+            layer.tips('请输入线路名', '#routeName_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#username_c").val() == ""){
+            layer.tips('请输入账号', '#username_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if($("#password_c").val() == ""){
+            layer.tips('请输入密码', '#password_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if(!$("input[type='radio']:checked").val()){
+            layer.tips('选择权限', '#auth_c', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        $("#queryForm").submit();
+    }
+
+    jQuery(document).ready(function () {
+        $("input[name='role'][value=${ userModel.role}]").attr("checked",true);
+    });
+
+</script>
+
+</body>
+<!-- END BODY -->
+</html>

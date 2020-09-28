@@ -1,0 +1,91 @@
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <ul class="page-sidebar-menu">
+        <li>
+            <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+            <div class="sidebar-toggler hidden-phone"></div>
+            <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+        </li>
+        <li>
+            <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+            <form class="sidebar-search" action="/main.html">
+
+            </form>
+            <!-- END RESPONSIVE QUICK SEARCH FORM -->
+        </li>
+
+        <@security.authorize access="hasRole('ADMIN') or hasRole('PC')">
+        <li class="">
+            <a href="javascript:;">
+                <i class="icon-book"></i>
+                <span class="title">数据管理</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a target="rightFrame" href="/mk/logistics/list.html" onclick="setStateFun()">数据管理</a></li>
+            </ul>
+        </li>
+    </@security.authorize>
+
+    <@security.authorize access="hasRole('ADMIN')">
+    <li class="">
+        <a href="javascript:;">
+            <i class="icon-user"></i>
+            <span class="title">线路管理</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li><a target="rightFrame" href="/mk/admin/user/list.html" onclick="setStateFun()">线路管理</a></li>
+        </ul>
+    </li>
+   </@security.authorize>
+
+   <@security.authorize access="hasRole('ADMIN') or hasRole('PC')">
+   <li class="">
+    <a href="javascript:;">
+        <i class="icon-book"></i>
+        <span class="title">客户管理</span>
+        <span class="arrow "></span>
+    </a>
+    <ul class="sub-menu">
+        <li><a target="rightFrame" href="/mk/customer/list.html" onclick="setStateFun()">客户管理</a></li>
+    </ul>
+   </li>
+</@security.authorize>
+
+
+</ul>
+
+<!-- END SIDEBAR MENU -->
+</div>
+<#include "/common/hidden.html"/>
+<script>
+    function setStateFun() {
+        sessionStorage.setItem('state', JSON.stringify(1));
+    }
+
+    jQuery(document).ready(function () {
+        //点击菜单箭头变化
+        $(".page-sidebar .page-sidebar-menu a").each(function () {
+            $(this).click(function () {
+                var parent = $(this).parent(); //得到父li
+                var grandParent = parent.parent();//得到祖先ul
+                var isPageSidebarMenu = grandParent.hasClass("page-sidebar-menu");
+                if (isPageSidebarMenu) {//点击一级菜单
+                    //                parent.siblings("li.active").removeClass('active');
+                    $("li.active").removeClass('active');//将所有activ的都清掉包括1级和2级的
+                    parent.addClass('active');
+                }
+
+                var isSubMenu = grandParent.hasClass("sub-menu");
+                if (isSubMenu) {//点中二级菜单
+                    $("li.active").removeClass('active');
+                    grandParent.parent().addClass('active');//将本级对应的一级菜单射程active
+                    parent.siblings("li.active").removeClass('active');//将本级兄弟清除active
+                }
+                parent.addClass('active');
+
+            });
+        });
+    });
+</script>

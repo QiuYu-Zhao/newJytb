@@ -1,0 +1,327 @@
+<#include "/common/header.html"/>
+
+<div class="container-fluid" style="background-color: #fff;" id="container">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href="/mk/logistics/list.html">数据管理</a>
+                    <i class="icon-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#" id="z_title">编辑物流单</a>
+                </li>
+            </ul>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <form id="queryForm" name="queryForm" method="post" action="/mk/logistics/update.html">
+                <input type="text" style="display: none" name = "id" id = "id" value="${ logistics.id }">
+                <div class="portlet-body form">
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="sender" id="sender_c" autocomplete="off" value="${ logistics.sender }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发件人电话</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="senderTel" id="senderTel_c"
+                                           autocomplete="off" value="${ logistics.senderTel }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">发货地址</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="senderAddress" id="senderAddress_c"
+                                           autocomplete="off" value="${ logistics.senderAddress }"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">门店名</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="storeName" id="storeName_c"
+                                           autocomplete="off" value="${ logistics.storeName }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">门店编码</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="storeNum" id="storeNum_c"
+                                           autocomplete="off" value="${ logistics.storeNum }"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiver" id="receiver_c"
+                                           autocomplete="off" value="${ logistics.receiver }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人电话</label></div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiverTel" id="receiverTel_c"
+                                           autocomplete="off" value="${ logistics.receiverTel }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">收件人地址</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="receiverAddress"
+                                           id="receiverAddress_c" autocomplete="off"
+                                           value="${ logistics.receiverAddress }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label" >线路</label>
+                                </div>
+                                <div class="controls">
+                                    <select name="userId" id= "userId_u" class="m-wrap span6">
+                                        <option value="">请选择</option>
+                                        <#list userList as item>
+                                            <option value="${ item.id}">
+                                                ${ item.routeName?if_exists}
+                                            </option>
+                                        </#list>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">数量</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="count" id="count_c"
+                                           autocomplete="off" value="${ logistics.count }"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">现付</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="nowPay" id="nowPay_c"
+                                           autocomplete="off" value="${ logistics.nowPay }"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">到付</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="reachPay" id="reachPay_c"
+                                           autocomplete="off" value="${ logistics.reachPay }"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">运费</label></div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name="freightCharge" id="freightCharge_c"
+                                           autocomplete="off" value="${ logistics.freightCharge }">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span4" id="z_showFreightCharge">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">代收费</label></div>
+                                <div class="controls">
+                                    <input type="number" class="m-wrap span6" name = "insteadCharge" id = "insteadCharge_u" onblur="changeInstead(value)" value="${ logistics.insteadCharge }" autocomplete="off" />
+                                    <input type="text" class="m-wrap span6" style="display: none" name = "instead" id = "instead_u" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">货物名称</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span6" name="goodsName" id="goodsName_c"
+                                           autocomplete="off" value="${ logistics.goodsName }" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                <div class="span3">
+                                    <label class="control-label">备注</label>
+                                </div>
+                                <div class="controls">
+                                    <textarea id="remark_u" class="m-wrap span6" name="remark" autocomplete="off" value="${ logistics.remark }"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4"></div>
+                    <div class="span4"></div>
+                    <div class="span4">
+                        <div class="control-group">
+                            <button type="button" id="queryBtn" class="btn blue"  onclick="creatSub()" style="margin-left: 10px;width: 100px;">更新</button>
+                            <button type="button" class="btn grey" onclick="javascript:history.go(-1);"  style="margin-left: 10px;width: 100px;">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="span12">
+
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+</div>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<#include "/common/footer.html"/>
+<link href="/css/jquery.dataTables.css" rel="stylesheet" />
+
+<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.json.min.js"></script>
+<script type="text/javascript" src="/js/date-format.js"></script>
+
+<script type="text/javascript" src="/js/ajaxupload.js"></script>
+<script>
+    $("#container").height("700px");
+
+    function creatSub() {
+        if($("#receiver_u").val() == ""){
+            layer.tips('请输入收货人', '#receiver_u', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#sender_u").val() == ''){
+            layer.tips('请输入发件人', '#sender_u', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+        if($("#userId_u").val() == ""){
+            layer.tips('选择线路', '#userId_u', {
+                tips: [1, '#e85555'],
+                anim : 6,
+                time: 2000
+            });
+            return;
+        }
+
+        if(!$('#count_u').val()){
+            $('#count_u').val(0);
+        }
+        $("#queryForm").submit();
+    }
+
+    jQuery(document).ready(function () {
+        $('#instead_u').val(${ logistics.instead })
+        $('#remark_u').val('${ logistics.remark }')
+        $('#userId_u').val('${ logistics.userId }')
+    });
+    //是否代收
+    function changeInstead(value){
+        if(value && value != 0){
+            $('#instead_u').val(1)
+        }else{
+            $('#instead_u').val(0)
+        }
+    }
+
+</script>
+
+</body>
+<!-- END BODY -->
+</html>
+

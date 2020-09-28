@@ -1,0 +1,41 @@
+#map_wrap_wrap_black {
+    width: 100%;height:100%;background: rgba(0,0,0,0.5);position:absolute;top: 0;left: 0;display: none;
+}
+#map_wrap_wrap_close {
+    position: absolute;  top: 18%;width: 30px;right: 20px; height: 35px;font-size: 30px;margin: 0 auto;line-height: 30px;padding-left: 2px;
+}
+#img_close {
+    width: 30px;height: 30px;" id="clear_map_clear;
+}
+#map_wrap_wrap {
+    width: 90%;height: 80%;position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0;
+}
+#map{
+    height: 100%;width: 100%;position: absolute;left: 0%;top: 0;padding: 1%;margin: 0%;
+}
+#close_right {
+    position: absolute;left: 0%;top: -8.7%;height: 50px;width:102%;margin-top: 10px;background: white;
+}
+#suggestId {
+    width:450px;height: 26px;margin: 0 auto;margin-top: 6px;margin-left: 20px;outline:none; border-radius: 20px 2px 12px 0;box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+}
+#btn_clear_map_address {
+    position: absolute;width: 30px;height: 40px;left:446px; top: 3px;line-height:40px;
+}
+#img_close_ {
+    width: 30px;height: 30px;margin-top: -1px;
+}
+#searchResultPanel {
+    border:1px solid #C0C0C0;width:150px;height:auto; display:none;
+}
+.error {
+    color: #b94a48;
+}
+
+
+
+
+
+
+
+

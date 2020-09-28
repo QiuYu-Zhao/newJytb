@@ -1,0 +1,52 @@
+<#include "/common/header.html"/>
+<#include "/common/footer.html"/>
+<!-- BEGIN BODY -->
+<body class="page-header-fixed page-sidebar-closed">
+<!-- 顶部 -->
+<#include "/common/navbar.html"/>
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- BEGIN SIDEBAR -->
+    <#include "/common/sidebar.html"/>
+    <!-- END SIDEBAR -->
+	<!-- BEGIN page-content -->
+    <div class="page-content">
+        <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+        <div id="portlet-config" class="modal hide">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"></button>
+                <h3>Widget Settings</h3>
+            </div>
+        </div>
+
+        <iframe id="rightFrame" name="rightFrame" src="/mk/logistics/list.html" style="width:100%;height:100%;" frameborder="0"> </iframe>
+
+    </div>
+	<!-- END page-content -->
+
+</div>
+<!-- END CONTAINER -->
+<!-- END PAGE LEVEL SCRIPTS -->
+<#include "/common/copyright.html"/>
+<script>
+jQuery(document).ready(function () {
+        App.init(); // initlayout and core plugins
+        Index.initChat();
+//        var minHeight = document.documentElement.clientHeight - 35;
+        var minHeight = document.documentElement.offsetHeight - 35;
+        $("#rightFrame").height(minHeight);
+    	$("#rightFrame").load(function () {
+                var mainheight = $(this).contents().find("body").height() + 35;
+                if(!mainheight || mainheight < 100 ){
+                    mainheight = minHeight;
+                }
+                $(this).height(mainheight);
+    	});
+
+    });
+</script>
+
+</body>
+<!-- END BODY -->
+</html>

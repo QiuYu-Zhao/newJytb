@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="D:\\jytb\\tmp\\logbacks" />
+
+    <!-- 控制台日志输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%thread] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level%c:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 为了把不同的信息打印到不同的文件中，这里设置了不同的日志级别打印到不同文件中 -->
+    <appender name="FILEINFO"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--用户行为操作的日志打印到以log-user开头的文件中 -->
+            <FileNamePattern>${LOG_HOME}/log-info.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 最多30个文件 -->
+            <MaxHistory>365</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%thread] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level%logger{50}:%L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>50MB</MaxFileSize>
+        </triggeringPolicy>
+        <!-- 过滤器，只记录INFO级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="FILEERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>${LOG_HOME}/log-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 最多30个文件 -->
+            <MaxHistory>365</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%thread] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level%c:%L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILEINFO" />
+        <appender-ref ref="FILEERROR" />
+    </root>
+
+</configuration>  

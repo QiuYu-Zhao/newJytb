@@ -1,0 +1,146 @@
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
+<div class="header navbar navbar-inverse navbar-fixed-top">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <div class="navbar-inner">
+        <div class="container-fluid">
+
+
+			<input type="hidden" id="mksessionId" value="${mksessionId?if_exists}">
+
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                <img src="${base}/image/menu-toggler.png" alt="" />
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+
+            <ul class="nav pull-right">
+                <!-- END TODO DROPDOWN -->
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-top:4px">
+                        <!--img alt="" src="${base}/image/head.png" /-->
+                        <span class="username">${user.routeName?if_exists}</span>
+                    </a>
+						<li><a href="/logout.html" id="logout" onclick="delMkSession();"><i class="icon-key"></i>退出</a></li>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+        </div>
+  
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+</div>
+
+<div>
+	<div id="passwordPlat" class="modal hide fade" data-width="300" tabindex="-1" data-focus-on="input:first" style="width: 400px !important;">
+		 <div class="modal-header">
+			<h3>修改密码</h3>
+		</div>
+		<div class="modal-body" >
+			<form id="changePasswordForm" name="changePassword" action="update/password" class="navbar-form navbar-left" role="search">
+				  <div class="form-group">
+					<input type="password" id="oldPassword" name="oldPassword" class="form-control" placeholder="旧密码">
+					  旧密码
+				  </div>
+				  <div class="form-group">
+					<input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="新密码">
+					  新密码
+				  </div>
+				  <div class="form-group">
+					<input type="password" id="checkPassword" name="checkPassword" class="form-control" placeholder="确认密码">
+					  确认密码
+				  </div>
+				  <button id="passwordClose" class="btn" type="button" data-dismiss="modal">关闭</button>
+				  <button class="btn" type="button" onclick="javascript:changePasswor()">修改</button>
+			</form>
+		</div>
+	</div>
+</div>
+				
+<script>
+	function changePasswor() {
+		var oldPassword = $("#oldPassword").val();
+		var newPassword = $("#newPassword").val();
+		var checkPassword = $("#checkPassword").val();
+
+		if(oldPassword == ""){
+			layer.tips('请输入旧密码', '#oldPassword', {
+				tips: [1, '#ff0000'],
+				anim : 6,
+				time: 2000
+			});
+			return;
+		}
+		if(newPassword == ""){
+			layer.tips('请输入新密码', '#newPassword', {
+				tips: [1, '#ff0000'],
+				anim : 6,
+				time: 2000
+			});
+			return;
+		}
+		if(checkPassword == ""){
+			layer.tips('请输入确认密码', '#checkPassword', {
+				tips: [1, '#ff0000'],
+				anim : 6,
+				time: 2000
+			});
+			return;
+		}
+		if(newPassword != checkPassword){
+			layer.tips('新密码与确认密码两次输入的不同', '#checkPassword', {
+				tips: [1, '#ff0000'],
+				anim : 6,
+				time: 2000
+			});
+			return;
+		}
+		if(oldPassword == newPassword){
+			layer.tips('新密码与旧密码相同', '#newPassword', {
+				tips: [1, '#ff0000'],
+				anim : 6,
+				time: 2000
+			});
+			return;
+		}
+		$.ajax({
+			url: "mk/common/user/update/password.html",
+			data: $("#changePasswordForm").serialize(),
+			type: "post",
+			success: function (result) {
+				var resultEntity = jQuery.parseJSON(result);
+				if (resultEntity.success == 'true') {
+					layer.msg('修改成功',{time :1000,offset: '100px'});
+					$("#passwordClose").click();
+				} else {
+					layer.msg(resultEntity.msg,{time :1000,offset: '100px'});
+				}
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+	}
+
+	function delMkSession() {
+		$.ajax({
+			url: "/delMkSession.html",
+			dataType : "JSON",
+			data : {
+				'mksessionId':$('#mksessionId').val()
+			},
+			type: "post",
+			success: function (result) {
+				console.log(result);
+                sessionStorage.clear();
+            },
+			error: function (error) {
+				console.log(error);
+			}
+		});
+	}
+
+</script>
+
