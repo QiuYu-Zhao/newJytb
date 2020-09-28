@@ -352,6 +352,7 @@ public class LogisticsController {
             logger.info("导出时condition : {}", condition);
             List<Logistics> logisticsList;
             List<Logistics> materialLists = new ArrayList<>();
+            String fileName = "金益通宝" + DateUtil.dateTime(new Date());
             try {
                 int currentPage = 1;
                 while (true) {
@@ -395,10 +396,10 @@ public class LogisticsController {
                     }
                 });
                 headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "备注");
-                ExcelUtil.exportExcel(headList, data, response, "logistics");
+                ExcelUtil.exportExcel(headList, data, response, fileName);
             } else {
                 headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "备注");
-                ExcelUtil.exportExcel(headList, data, response, "logistics");
+                ExcelUtil.exportExcel(headList, data, response, fileName);
             }
         } catch (Exception e) {
             logger.error("查询物流单列表出错", e);
@@ -408,6 +409,7 @@ public class LogisticsController {
 
     private String getCondition(HttpServletRequest request) {
         StringBuilder condition = new StringBuilder("1=1");
+        String systemNum = StringUtil.g(request.getParameter("systemNum"));
         String sender = StringUtil.g(request.getParameter("sender"));
         String senderTel = StringUtil.g(request.getParameter("senderTel"));
         String senderAddress = StringUtil.g(request.getParameter("senderAddress"));
@@ -428,6 +430,9 @@ public class LogisticsController {
         String createTimeEnd = StringUtil.g(request.getParameter("createTimeEnd"));
         String state = StringUtil.g(request.getParameter("state"));
 
+        if (!StringUtil.isEmpty(systemNum)) {
+            condition.append(" AND system_num like '%").append(systemNum).append("%' ");
+        }
 
         if (!StringUtil.isEmpty(receiver)) {
             condition.append(" AND receiver like '%").append(receiver).append("%' ");

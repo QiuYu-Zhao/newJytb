@@ -31,7 +31,7 @@ public class ExcelUtil {
     private static void setHttpDownloadHeader(HttpServletResponse response, String fileName) throws IOException {
         response.reset();// 清空输出流
         response.setHeader("Content-disposition",
-                "attachment; filename=" + new String(fileName.getBytes("utf-8"), "utf-8") + ".xlsx");// 设定输出文件头
+                "attachment; filename=" + new String(fileName.getBytes(),"iso-8859-1") + ".xls");
         response.setContentType("application/msexcel");// 定义输出类型
     }
 
@@ -260,4 +260,5 @@ public class ExcelUtil {
             e.printStackTrace();
         }
     }
+
 }
