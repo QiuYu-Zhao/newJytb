@@ -144,6 +144,16 @@ public class LogisticsVO implements Serializable {
     private String storeNum;
 
     /**
+     * 收件人门店名
+     */
+    private String receiverStoreName;
+
+    /**
+     * 收件人门店编号
+     */
+    private String receiverStoreNum;
+
+    /**
      * 货物名称
      */
     private String goodsName;
@@ -209,7 +219,9 @@ public class LogisticsVO implements Serializable {
         this.senderTel = logistics.getSenderTel();
         this.senderAddress = logistics.getSenderAddress();
         this.storeName = logistics.getStoreName();
-        this.storeNum = logistics.getStoreName();
+        this.storeNum = logistics.getStoreNum();
+        this.receiverStoreName = logistics.getReceiverStoreName();
+        this.receiverStoreNum = logistics.getReceiverStoreNum();
         this.goodsName = logistics.getGoodsName();
         this.userId = logistics.getUserId();
         this.routeName = logistics.getRouteName();
@@ -426,6 +438,22 @@ public class LogisticsVO implements Serializable {
 
     public void setStoreNum(String storeNum) {
         this.storeNum = storeNum;
+    }
+
+    public String getReceiverStoreName() {
+        return receiverStoreName;
+    }
+
+    public void setReceiverStoreName(String receiverStoreName) {
+        this.receiverStoreName = receiverStoreName;
+    }
+
+    public String getReceiverStoreNum() {
+        return receiverStoreNum;
+    }
+
+    public void setReceiverStoreNum(String receiverStoreNum) {
+        this.receiverStoreNum = receiverStoreNum;
     }
 
     public String getGoodsName() {

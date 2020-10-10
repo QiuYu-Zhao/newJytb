@@ -43,7 +43,7 @@
                                     <label class="control-label">发件人</label>
                                 </div>
                                 <div class="controls">
-                                    <input type="text" class="m-wrap span8" name="sender" id="sender_c" autocomplete="off" placeholder="格式：1-1发件人" onkeypress="keypressFun(event)"/>
+                                    <input type="text" class="m-wrap span8" name="sender" id="sender_c" autocomplete="off" onkeypress="keypressFun(event)"/>
                                 </div>
                             </div>
                         </div>
@@ -63,16 +63,16 @@
                                     <label class="control-label">发货地址</label>
                                 </div>
                                 <div class="controls">
-                                    <input type="text" class="m-wrap span8" name="senderAddress" id="senderAddress_c" onkeypress="keypressFun(event)""
-                                           autocomplete="off"/>
+                                    <input type="text" class="m-wrap span8" name="senderAddress" id="senderAddress_c" placeholder="格式：1-张镇" onkeypress="keypressFun(event)"
+                                    autocomplete="off"/>
                                 </div>
                             </div>
                         </div>
 
                         <div class="span3">
                             <div class="control-group">
-                                <div class="span3">
-                                    <label class="control-label">门店名</label>
+                                <div class="span4">
+                                    <label class="control-label">发件人门店名</label>
                                 </div>
                                 <div class="controls">
                                     <input type="text" class="m-wrap span8" name="storeName" id="storeName_c" autocomplete="off" onkeypress="keypressFun(event)"/>
@@ -84,11 +84,11 @@
                     <div class="row-fluid">
                         <div class="span3">
                             <div class="control-group">
-                                <div class="span3">
-                                    <label class="control-label">门店编码</label>
+                                <div class="span4">
+                                    <label class="control-label">发件人门店编码</label>
                                 </div>
                                 <div class="controls">
-                                    <input type="text" class="m-wrap span8" name="storeNum" id="storeNum_c" autocomplete="off" onkeypress="keypressFun(event)"/>
+                                    <input type="text" class="m-wrap span8" name="storeNum" id="storeNum_c" autocomplete="off" placeholder="格式：1-1" onkeypress="keypressFun(event)"/>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                                 <div class="span3">
                                     <label class="control-label">收件人</label></div>
                                 <div class="controls">
-                                    <input type="text" class="m-wrap span8" name="receiver" id="receiver_c" autocomplete="off" placeholder="格式：1-1收件人" onkeypress="keypressBtn(event)"/>
+                                    <input type="text" class="m-wrap span8" name="receiver" id="receiver_c" autocomplete="off" onkeypress="keypressBtn(event)"/>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +126,29 @@
 
                         <div class="span3">
                             <div class="control-group">
+                                <div class="span4">
+                                    <label class="control-label">收件人门店名</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span8" name="receiverStoreName" id="storeName_s" onkeypress="keypressBtn(event)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <div class="control-group">
+                                <div class="span4">
+                                    <label class="control-label">收件人门店编码</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="m-wrap span8" name="receiverStoreNum" id="storeNum_s" placeholder="格式：1-1" onkeypress="keypressBtn(event)"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span3">
+                            <div class="control-group">
                                 <div class="span3">
                                     <label class="control-label">线路</label>
                                 </div>
@@ -142,7 +165,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="row-fluid">
                         <div class="span3" id="z_showFreightCharge">
@@ -180,7 +202,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="span3">
                             <div class="control-group">
                                 <div class="span3">
@@ -321,8 +342,11 @@
                             <th>现付</th>
                             <th>到付</th>
                             <th>运费</th>
+                            <th>收件人门店编码</th>
+                            <th>收件人门店名</th>
                             <!--<th>是否代收</th>-->
                             <th>代收费</th>
+                            <th>创建时间</th>
                             <!--<th>货物名称</th>-->
                             <!--<th>备注</th>-->
                             <th>操作</th>
@@ -350,9 +374,11 @@
         <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_1">数量：<span class="line_p" id = "count_p"></span></li>
         <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">运费(元)：<span class="line_p" id = "freightCharg_p"></span></li>
         <li style="list-style:none;border-bottom:1px dotted blue;width:40%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">代收费：<span class="line_p" id = "insteadCharge_p"></span></li>
-        <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_1">到付：<span class="line_p" id = "freight_p"></span></li>
-        <li style="list-style:none;border-bottom:1px dotted blue;width:30%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">代收：<span class="line_p" id = "collection_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_1">到付：<span class="line_p" id = "freight_p"></span></li>
+        <li style="list-style:none;border-bottom:1px dotted blue;width:50%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">代收：<span class="line_p" id = "collection_p"></span></li>
+<!--
         <li style="list-style:none;border-bottom:1px dotted blue;width:40%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">总额：<span class="line_p" id = "totalMoney_p"></span></li>
+-->
         <li style="list-style:none;border-bottom:1px dotted blue;width:60%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_1">线路：<span class="line_p" style="font-weight: bold;" id = "userId_p"></span></li>
         <li style="list-style:none;border-bottom:1px dotted blue;width:40%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_5">到应收：<span class="line_p" style="font-weight: bold;" id = "receivable_p"></span></li>
         <li style="list-style:none;border-bottom:1px dotted blue;width:100%; float: left;line-height: 16px; font-size: 12px;margin:2px 0;padding-bottom:2px;" class="print_1">备注：<span class="line_p" id = "remark_p"></span></li>
@@ -374,7 +400,7 @@
 
 <script type="text/javascript" src="/js/ajaxupload.js"></script>
 <script>
-    $("#container").height("1150px");
+    $("#container").height("1300px");
     var resultArr = [];
 
     var oTable;
@@ -411,12 +437,12 @@
             },
             aoColumns: [
                 {mData: 'systemNum', "sWidth": "6%", "defaultContent": ""},
-                {mData: 'sender', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'sender', "sWidth": "5%", "defaultContent": ""},
                 {mData: 'senderTel', "sWidth": "6%", "defaultContent": ""},
                 {mData: 'senderAddress', "sWidth": "6%", "defaultContent": ""},
 //                {mData: 'storeName', "sWidth": "6%", "defaultContent": ""},
 //                {mData: 'storeNum', "sWidth": "6%", "defaultContent": ""},
-                {mData: 'receiver', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'receiver', "sWidth": "5%", "defaultContent": ""},
                 {mData: 'receiverTel', "sWidth": "6%", "defaultContent": ""},
                 {
                     "mDataProp": "id", "sWidth": "6%",
@@ -425,10 +451,12 @@
                     }
                 },
                 {mData: 'routeName', "sWidth": "6%", "defaultContent": ""},
-                {mData: 'count', "sWidth": "6%", "defaultContent": ""},
+                {mData: 'count', "sWidth": "3%", "defaultContent": ""},
                 {mData: 'nowPay', "sWidth": "4%", "defaultContent": ""},
                 {mData: 'reachPay', "sWidth": "4%", "defaultContent": ""},
                 {mData: 'freightCharge', "sWidth": "4%", "defaultContent": ""},
+                {mData: 'receiverStoreNum', "sWidth": "0%", "visible": "", "defaultContent": ""},
+                {mData: 'receiverStoreName', "sWidth": "0%", "visible": "", "defaultContent": ""},
 //                {
 //                    "mDataProp": "id", "sWidth": "4%",
 //                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -445,6 +473,7 @@
                         $(nTd).html(oData.insteadCharge);
                     }
                 },
+                {mData: 'createTime', "sWidth": "8%", "defaultContent": ""},
 //                {mData: 'goodsName', "sWidth": "4%", "defaultContent": ""},
 //                {mData: 'remark', "sWidth": "7%", "defaultContent": ""},
                 {
@@ -734,10 +763,10 @@
             $.ajax({
                 url: "/mk/customer/list/page.html",
                 data: {
-                    "systemNum": "",
+                    "systemNum": $("#storeNum_s").val(),
                     "aoData":JSON.stringify([]),
                     "customerName": $("#receiver_c").val(),
-                    "customerShopName": "",
+                    "customerShopName": $("#storeName_s").val(),
                     "phoneNum": $("#receiverTel_c").val(),
                     "address" : $("#receiverAddress_c").val(),
                     "userId" : "",
@@ -754,6 +783,9 @@
                         $("#receiver_c").val(dataList[0].customerName);
                         $("#receiverTel_c").val(dataList[0].phoneNum);
                         $("#receiverAddress_c").val(dataList[0].address);
+                        $("#userId_c").val(dataList[0].userId);
+                        $("#storeNum_s").val(dataList[0].systemNum);
+                        $("#storeName_s").val(dataList[0].customerShopName);
                     }else{
                         layer.msg('请输入精确在回车');
                     }
@@ -997,7 +1029,7 @@
             $('#count_c').val(0);
         }
         $('#receiverAddress_p').html($('#receiverAddress_c').val());
-        $('#receiver_p').html($('#receiver_c').val())
+        $('#receiver_p').html($('#storeNum_s').val()+$('#receiver_c').val()+$('#storeName_s').val())
         $('#receiverTel_p').html($('#receiverTel_c').val())
         $('#freightCharg_p').html($('#freightCharge_c').val())
         $('#instead_p').html(instead_c)
@@ -1011,7 +1043,9 @@
         $('#freight_p').html($('#reachPay_c').val())
         $('#collection_p').html($('#nowPay_c').val())
         $('#receivable_p').html(Number($('#reachPay_c').val()) + Number($('#insteadCharge_c').val()))//到应收 = 代收费 + 到付
+/*
         $('#totalMoney_p').html(Number($('#insteadCharge_c').val()) + Number($('#reachPay_c').val()) + Number($('#nowPay_c').val())) //总额=到付+代付+代收费
+*/
 
         var newWindow = window.open("打印窗口", "_blank");
         var docStr = obj.innerHTML;
@@ -1044,7 +1078,7 @@
             instead_u = ''
         }
         $('#receiverAddress_p').html(tableData.receiverAddress);
-        $('#receiver_p').html(tableData.receiver)
+        $('#receiver_p').html(tableData.receiverStoreNum+tableData.receiver+tableData.receiverStoreName)
         $('#receiverTel_p').html(tableData.receiverTel)
         $('#freightCharg_p').html(tableData.freightCharge)
         $('#instead_p').html(instead_u)
@@ -1061,7 +1095,9 @@
         $('#freight_p').html(tableData.reachPay)
         $('#collection_p').html(tableData.nowPay)
         $('#receivable_p').html(Number(tableData.reachPay) + Number(tableData.insteadCharge))//到应收 = 代收费 + 到付
+/*
         $('#totalMoney_p').html(Number(tableData.insteadCharge) + Number(tableData.reachPay) + Number(tableData.nowPay)) //总额=到付+代付+代收费
+*/
 
         var newstr = document.getElementById('printId').innerHTML;//得到需要打印的元素HTML
         var oldstr = document.body.innerHTML;

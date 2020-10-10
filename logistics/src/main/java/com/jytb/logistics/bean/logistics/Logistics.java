@@ -113,6 +113,12 @@ public class Logistics implements Serializable {
     private int sortNum;
 
     /**
+     * 排序字段2
+     */
+    @Column(name = "sort_num_next")
+    private int sortNumNext;
+
+    /**
      * 数量
      */
     @Column(name = "count")
@@ -171,6 +177,18 @@ public class Logistics implements Serializable {
      */
     @Column(name = "sender_address")
     private String senderAddress;
+
+    /**
+     * 收件人门店名
+     */
+    @Column(name = "receiver_store_name")
+    private String receiverStoreName;
+
+    /**
+     * 收件人门店编号
+     */
+    @Column(name = "receiver_store_num")
+    private String receiverStoreNum;
 
     /**
      * 门店名
@@ -366,6 +384,14 @@ public class Logistics implements Serializable {
         this.sortNum = sortNum;
     }
 
+    public int getSortNumNext() {
+        return sortNumNext;
+    }
+
+    public void setSortNumNext(int sortNumNext) {
+        this.sortNumNext = sortNumNext;
+    }
+
     public int getCount() {
         return count;
     }
@@ -444,6 +470,22 @@ public class Logistics implements Serializable {
 
     public void setSenderAddress(String senderAddress) {
         this.senderAddress = senderAddress;
+    }
+
+    public String getReceiverStoreName() {
+        return receiverStoreName;
+    }
+
+    public void setReceiverStoreName(String receiverStoreName) {
+        this.receiverStoreName = receiverStoreName;
+    }
+
+    public String getReceiverStoreNum() {
+        return receiverStoreNum;
+    }
+
+    public void setReceiverStoreNum(String receiverStoreNum) {
+        this.receiverStoreNum = receiverStoreNum;
     }
 
     public String getStoreName() {

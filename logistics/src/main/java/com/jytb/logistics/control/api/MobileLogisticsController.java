@@ -81,7 +81,7 @@ public class MobileLogisticsController {
             if (Integer.parseInt(state) == LogisticsStateEnum.RECEIVED.getCode()) {
                 condition += " and finish_time >= '" + DateUtil.dateTime(DateUtil.getStart(new Date())) + "'";
             }
-            List<Logistics> logisticsList = mobileLogisticsService.getLogisticsListPageByCondition(condition, pageInt, pageSizeInt, "sort_num,receiver");
+            List<Logistics> logisticsList = mobileLogisticsService.getLogisticsListPageByCondition(condition, pageInt, pageSizeInt, "sort_num,sort_num_next");
             for (Logistics logistics : logisticsList) {
                 JSONObject obj = new JSONObject();
                 String address = "";
@@ -93,6 +93,8 @@ public class MobileLogisticsController {
                 obj.put("insteadCharge", StringUtil.g(logistics.getInsteadCharge()));
                 obj.put("sender", StringUtil.g(logistics.getSender()));
                 obj.put("senderTel", StringUtil.g(logistics.getSenderTel()));
+                obj.put("receiverStoreName", StringUtil.g(logistics.getReceiverStoreName()));
+                obj.put("receiverStoreNum", StringUtil.g(logistics.getReceiverStoreNum()));
                 obj.put("remark", StringUtil.g(logistics.getRemark()));
                 obj.put("count", logistics.getCount());
                 if (!StringUtil.isEmpty(logistics.getReceiverProvinceName())) {
@@ -223,6 +225,7 @@ public class MobileLogisticsController {
             if (user != null) {
                 logistics.setRouteName(user.getRouteName());
             }
+
             String reg = "[0-9]+";
             String address = logistics.getReceiverAddress();
             String[] addressSplit = address.split("-");
@@ -286,11 +289,15 @@ public class MobileLogisticsController {
             if (user != null) {
                 logistics.setRouteName(user.getRouteName());
             }
+
             String reg = "[0-9]+";
-            String address = logistics.getReceiverAddress();
-            String[] addressSplit = address.split("-");
-            if (addressSplit.length >= 1 && addressSplit[0].matches(reg)) {
-                logistics.setSortNum(Integer.parseInt(addressSplit[0]));
+            String storeNum = logistics.getReceiverStoreNum();
+            String[] storeNumSplit = storeNum.split("-");
+            if (storeNumSplit.length == 1 && storeNumSplit[0].matches(reg)) {
+                logistics.setSortNum(Integer.parseInt(storeNumSplit[0]));
+            } else if (storeNumSplit.length == 2 && storeNumSplit[0].matches(reg) && storeNumSplit[1].matches(reg)) {
+                logistics.setSortNum(Integer.parseInt(storeNumSplit[0]));
+                logistics.setSortNumNext(Integer.parseInt(storeNumSplit[1]));
             }
 
             String fullAddress = "";

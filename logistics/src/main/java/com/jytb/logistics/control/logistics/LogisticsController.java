@@ -121,11 +121,15 @@ public class LogisticsController {
             if (user != null) {
                 logistics.setRouteName(user.getRouteName());
             }
+
             String reg = "[0-9]+";
-            String address = logistics.getReceiverAddress();
-            String[] addressSplit = address.split("-");
-            if (addressSplit.length >= 1 && addressSplit[0].matches(reg)) {
-                logistics.setSortNum(Integer.parseInt(addressSplit[0]));
+            String storeNum = logistics.getReceiverStoreNum();
+            String[] storeNumSplit = storeNum.split("-");
+            if (storeNumSplit.length == 1 && storeNumSplit[0].matches(reg)) {
+                logistics.setSortNum(Integer.parseInt(storeNumSplit[0]));
+            } else if (storeNumSplit.length == 2 && storeNumSplit[0].matches(reg) && storeNumSplit[1].matches(reg)) {
+                logistics.setSortNum(Integer.parseInt(storeNumSplit[0]));
+                logistics.setSortNumNext(Integer.parseInt(storeNumSplit[1]));
             }
 
             String fullAddress = "";
@@ -390,15 +394,16 @@ public class LogisticsController {
                     list.add(new ExcelData(StringUtil.g(material.getInstead() == 1 ? "是" : "否")));
                     list.add(new ExcelData(StringUtil.g(material.getInsteadCharge())));
                     list.add(new ExcelData(StringUtil.g(material.getGoodsName())));
+                    list.add(new ExcelData(StringUtil.g(material.getCreateTime())));
                     list.add(new ExcelData(StringUtil.g(material.getRemark())));
                     if (!CollectionUtil.isEmpty(list)) {
                         data.add(list);
                     }
                 });
-                headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "备注");
+                headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "创建时间", "备注");
                 ExcelUtil.exportExcel(headList, data, response, fileName);
             } else {
-                headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "备注");
+                headList = Arrays.asList("编号", "发件人", "发件人电话", "发货地址", "门店名", "门店编号", "收件人", "收件人电话", "收货地址", "线路", "数量", "现付", "到付", "运费（元）", "是否代收", "代收费（元）", "货物名称", "创建时间", "备注");
                 ExcelUtil.exportExcel(headList, data, response, fileName);
             }
         } catch (Exception e) {
@@ -418,7 +423,6 @@ public class LogisticsController {
         String receiver = StringUtil.g(request.getParameter("receiver"));
         String receiverTel = StringUtil.g(request.getParameter("receiverTel"));
         String receiverAddress = StringUtil.g(request.getParameter("receiverAddress"));
-        String instead = StringUtil.g(request.getParameter("instead"));
         String insteadCharge = StringUtil.g(request.getParameter("insteadCharge"));
         String userId = StringUtil.g(request.getParameter("userId"));
         String count = StringUtil.g(request.getParameter("count"));
@@ -452,10 +456,6 @@ public class LogisticsController {
 
         if (!StringUtil.isEmpty(receiverAddress)) {
             condition.append(" AND full_address like '%").append(receiverAddress).append("%' ");
-        }
-
-        if (!StringUtil.isEmpty(instead)) {
-            condition.append(" AND instead = ").append(instead).append(" ");
         }
 
         if (!StringUtil.isEmpty(insteadCharge)) {
